@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="px-6 py-8">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="text-left px-6">
+                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing:-1px;">Portfolio Value: <span class="text-indigo-600">$25,000</span></h1>
+            </div>
+            <div class="flex items-center">
+                <input type="text" placeholder="Lookup Stock" class="px-5 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 w-56 shadow-sm bg-white/70">
+                <button class="ml-3 p-2 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 text-white shadow hover:from-cyan-400 hover:to-indigo-500 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+        <div class="px-6 py-6 max-w-6xl mx-auto">
+        <!-- Key Metrics Section - Moved to top -->
+        <div class="mb-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="metric-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-gray-600">Daily Gain</p>
+                            <p class="text-lg font-bold text-green-600">+180 (0.72%)</p>
+                        </div>
+                        <div class="p-2 bg-green-100 rounded-full">
+                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-medium text-gray-600">Total Return</p>
+                            <p class="text-lg font-bold text-green-600">+14.96%</p>
+                        </div>
+                        <div class="p-2 bg-green-100 rounded-full">
+                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Chart Section -->
+        <div class="mb-6">
+            <div class="glass p-8">
+                <div class="h-80 bg-white/60 rounded-xl border flex items-center justify-center">
+                    <canvas id="candlestickChart" width="800" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Holdings Section - Moved here -->
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Holdings:</h2>
+            <div class="glass overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-white/60">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Ticker</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Qty</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Value</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">P/L</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="holdings-row">
+                            <td class="px-6 py-4 text-base font-bold text-gray-900">AAPL</td>
+                            <td class="px-6 py-4 text-base text-gray-700">10</td>
+                            <td class="px-6 py-4 text-base text-gray-700">$195</td>
+                            <td class="px-6 py-4 text-base text-green-600 font-semibold">+$450</td>
+                            <td class="px-6 py-4">
+                                <div class="flex space-x-2">
+                                    <button class="buy-btn">Buy</button>
+                                    <button class="sell-btn">Sell</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="holdings-row">
+                            <td class="px-6 py-4 text-base font-bold text-gray-900">TSLA</td>
+                            <td class="px-6 py-4 text-base text-gray-700">5</td>
+                            <td class="px-6 py-4 text-base text-gray-700">$200</td>
+                            <td class="px-6 py-4 text-base text-red-600 font-semibold">-$400</td>
+                            <td class="px-6 py-4">
+                                <div class="flex space-x-2">
+                                    <button class="buy-btn">Buy</button>
+                                    <button class="sell-btn">Sell</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+               <!-- Sector Allocation Section -->
+        <!--
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Sector Allocation</h2>
+            <div class="glass p-8">
+                <div class="flex items-center justify-center">
+                    <div class="relative w-56 h-56">
+                        <canvas id="sectorChart" width="220" height="220"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+
+        <!-- Market News Section -->
+        <!--
+        <div class="mb-10">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Market News</h2>
+            <div class="glass p-6">
+                <div class="space-y-4">
+                    <div class="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-900 mb-2">Tech Stocks Rally on AI Breakthrough</h4>
+                                <p class="text-sm text-gray-600 mb-3">Major technology companies see significant gains following announcement of new AI capabilities...</p>
+                                <div class="flex items-center text-xs text-gray-500">
+                                    <span>2 hours ago</span>
+                                    <span class="mx-2">•</span>
+                                    <span class="text-indigo-600 font-medium">Technology</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    Positive
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-gray-900 mb-2">Federal Reserve Signals Rate Changes</h4>
+                                <p class="text-sm text-gray-600 mb-3">Market volatility expected as Fed officials hint at potential policy adjustments...</p>
+                                <div class="flex items-center text-xs text-gray-500">
+                                    <span>5 hours ago</span>
+                                    <span class="mx-2">•</span>
+                                    <span class="text-yellow-600 font-medium">Economy</span>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    Neutral
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        -->
+    </div>
+
+    <script>
+        // Candlestick Chart Data - Fixed structure
+        const candlestickData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Stock Price',
+                data: [152, 156, 160, 163, 166, 168, 170, 173, 176, 178, 180, 183],
+                borderColor: '#06b6d4',
+                backgroundColor: 'rgba(99,102,241,0.10)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#6366f1',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 4
+            }]
+        };
+
+        // Create Candlestick Chart
+        const candlestickCtx = document.getElementById('candlestickChart').getContext('2d');
+        new Chart(candlestickCtx, {
+            type: 'line',
+            data: candlestickData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        titleColor: '#1f2937',
+                        bodyColor: '#1f2937',
+                        borderColor: '#e5e7eb',
+                        borderWidth: 1,
+                        callbacks: {
+                            label: function(context) {
+                                return `Price: $${context.parsed.y}`;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        grid: {
+                            color: 'rgba(99,102,241,0.10)'
+                        },
+                        ticks: {
+                            color: '#6b7280',
+                            callback: function(value) {
+                                return '$' + value;
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false
+                }
+            }
+        });
+
+        // Sector Allocation Pie Chart
+        /*
+        const ctx = document.getElementById('sectorChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['Technology', 'Healthcare', 'Finance', 'Consumer', 'Energy'],
+                datasets: [{
+                    data: [40, 30, 13, 10, 7],
+                    backgroundColor: [
+                        '#6366f1', // Indigo
+                        '#06b6d4', // Cyan
+                        '#6B7280', // Gray
+                        '#10B981', // Green
+                        '#F59E0B'  // Orange
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        */
+    </script>
+</body>
+</html>

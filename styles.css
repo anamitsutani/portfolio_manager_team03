@@ -1,0 +1,70 @@
+body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0fdfa 100%);
+    min-height: 100vh;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.25);
+}
+
+.sell-btn {
+    background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    box-shadow: 0 2px 8px 0 rgba(239,68,68,0.15);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+}
+
+.sell-btn:hover, .sell-btn:focus {
+    background: linear-gradient(90deg, #dc2626 0%, #ef4444 100%);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px 0 rgba(239,68,68,0.25);
+}
+
+.buy-btn {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1.25rem;
+    box-shadow: 0 2px 8px 0 rgba(16,185,129,0.15);
+    transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+}
+
+.buy-btn:hover, .buy-btn:focus {
+    background: linear-gradient(90deg, #059669 0%, #10b981 100%);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px 0 rgba(16,185,129,0.25);
+}
+
+.holdings-row {
+    transition: box-shadow 0.2s, background 0.2s;
+}
+
+.holdings-row:hover {
+    background: rgba(99,102,241,0.07);
+    box-shadow: 0 2px 12px 0 rgba(99,102,241,0.10);
+}
+
+.metric-card {
+    background: linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(6,182,212,0.1) 100%);
+    border: 1px solid rgba(99,102,241,0.2);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99,102,241,0.15);
+} 
