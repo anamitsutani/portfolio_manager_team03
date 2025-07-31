@@ -55,7 +55,7 @@ def insert_transaction(id, ticker, amount, transactionTimestamp, priceAtTransact
     Parameters:
         id (int): transaction id
         ticker (str): Ticker in the transaction (including the quotation marks in the string)
-        amount (int): amount that was sold or bought
+        amount (int): amount that was sold or bought indicated by a negative or positive value, respectively
         transactionTimestamp (str): timestamp 'YYYY-MM-DD HH:MM:SS' of when the transaction occurred (including the quotation marks in the string)
         priceAtTransaction (float): price of the asset in the transaction
     
