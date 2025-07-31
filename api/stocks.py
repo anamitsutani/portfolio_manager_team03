@@ -1,7 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 import yfinance as yf
-import requests
 
 app = Flask(__name__)
 api = Api(app)

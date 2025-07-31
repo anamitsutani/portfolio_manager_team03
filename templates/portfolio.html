@@ -80,48 +80,13 @@
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Ticker</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Qty</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Value</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">P/L</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Date</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        <tr class="holdings-row">
-                            <td class="px-6 py-4 text-base font-bold text-gray-900">AAPL</td>
-                            <td class="px-6 py-4 text-base text-gray-700">10</td>
-                            <td class="px-6 py-4 text-base text-gray-700">$195</td>
-                            <td class="px-6 py-4 text-base text-green-600 font-semibold">+$450</td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <a href="/buy" class="buy-btn">Buy</a>
-                                    <a href="/sell" class="sell-btn">Sell</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="holdings-row">
-                            <td class="px-6 py-4 text-base font-bold text-gray-900">TSLA</td>
-                            <td class="px-6 py-4 text-base text-gray-700">5</td>
-                            <td class="px-6 py-4 text-base text-gray-700">$200</td>
-                            <td class="px-6 py-4 text-base text-red-600 font-semibold">-$400</td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <a href="/buy" class="buy-btn">Buy</a>
-                                    <a href="/sell" class="sell-btn">Sell</a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="holdings-row">
-                            <td class="px-6 py-4 text-base font-bold text-gray-900">TSLA</td>
-                            <td class="px-6 py-4 text-base text-gray-700">5</td>
-                            <td class="px-6 py-4 text-base text-gray-700">$200</td>
-                            <td class="px-6 py-4 text-base text-red-600 font-semibold">-$400</td>
-                            <td class="px-6 py-4">
-                                <div class="flex space-x-2">
-                                    <a href="/buy" class="buy-btn">Buy</a>
-                                    <a href="/sell" class="sell-btn">Sell</a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
+
+                    {% include 'holdings.html' %}
+
                 </table>
             </div>
         </div>
