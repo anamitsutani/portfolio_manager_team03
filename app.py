@@ -22,19 +22,20 @@ def calc_value(holdings):
     print(holdings)
     for holding in holdings:
         symbol = holding['Ticker']
+        qty = holding['Amount']
         try:
             stock = yf.Ticker(symbol)
-            total.append(stock.info.get("currentPrice"))
+            total.append(qty * stock.info.get("currentPrice"))
         except Exception as e:
             return {"error": str(e)}, 500
-    return sum(total)
+    return f"{sum(total):,.2f}"
 
 @app.route("/", methods=["GET"])
 def index():
     holdings = get_holdings()
     print(holdings)
-    print(calc_value(holdings))
-    return render_template('portfolio.html', holdings=holdings)
+    current_value = calc_value(holdings)
+    return render_template('portfolio.html', holdings=holdings, current_value=current_value)
 
 if __name__ == "__main__":
     app.run()
