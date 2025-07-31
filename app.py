@@ -54,11 +54,13 @@ def index():
 
 @app.route("/buy", methods=["GET"])
 def buy():
-    return render_template('buy.html', action_type="buy")
+    ticker = request.args.get('ticker')
+    return render_template('buy.html',ticker=ticker)
 
 @app.route("/sell", methods=["GET"])
 def sell():
-    return render_template('sell.html', action_type="sell")
+    ticker = request.args.get('ticker')
+    return render_template('sell.html', ticker=ticker)
 
 if __name__ == "__main__":
     app.run(debug=True, host='127.0.0.1', port=5001)

@@ -1,28 +1,20 @@
-<div class="glass overflow-hidden">
-    <table class="w-full">
-        <thead class="bg-white/60">
-            <tr>
-                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Ticker</th>
-                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Quantity</th>
-                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Current Price</th>
-                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Total Value</th>
-                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Actions</th>
-            </tr>
-        </thead>
 
-        <tbody class="divide-y divide-gray-200">
-            {% for row in holdings %}
-            <tr class="holdings-row">
-                <td class="px-6 py-4 text-base font-bold text-gray-900">{{ row.Ticker }}</td>
-                <td class="px-6 py-4 text-base text-gray-700">{{ row.TotalAmount }}</td>
-                <td class="px-6 py-4 text-base text-gray-700">${{ row.CurrPrice }}</td>
-                <td class="px-6 py-4 text-base text-gray-700">${{ "{:,.2f}".format(row.TotalValue) }}</td>
-                <td class="px-6 py-4">
-                    <div class="flex space-x-2">
-                        <button class="buy-btn">Buy</button>
-                        <button class="sell-btn">Sell</button>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+<tbody class="divide-y divide-gray-200">
+    {% for row in holdings %}
+    <tr class="holdings-row">
+        <td class="px-6 py-4 text-base font-bold text-gray-900">{{ row.Ticker }}</td>
+        <td class="px-6 py-4 text-base text-gray-700">{{ row.Amount }}</td>
+        <td class="px-6 py-4 text-base text-gray-700">${{ row.PriceAtTransaction }}</td>
+        <td class="px-6 py-4 text-base text-gray-700">{{ row.TransactionTimestamp }}</td>
+        <td class="px-6 py-4">
+            <div class="flex space-x-2">
+                <div class="flex space-x-2">
+                    <button class="buy-btn" onclick="window.location.href='/buy?ticker={{ row.Ticker }}'">Buy</button>
+                    <button class="sell-btn" onclick="window.location.href='/sell?ticker={{ row.Ticker }}'">Sell</button>
+                    
+            </div>
+        </td>
+    </tr>
+    
+    {% endfor %}
+</tbody>
