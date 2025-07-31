@@ -7,8 +7,9 @@
         <td class="px-6 py-4 text-base text-gray-700">{{ row.TransactionTimestamp }}</td>
         <td class="px-6 py-4">
             <div class="flex space-x-2">
-                <button class="buy-btn">Buy</button>
-                <button class="sell-btn">Sell</button>
+                <div class="flex space-x-2">
+                    <button class="buy-btn" onclick="window.location.href='/buy'">Buy</button>
+                    <button class="sell-btn" onclick="window.location.href='/sell'">Sell</button>
             </div>
         </td>
     </tr>
