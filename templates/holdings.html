@@ -8,10 +8,12 @@
         <td class="px-6 py-4">
             <div class="flex space-x-2">
                 <div class="flex space-x-2">
-                    <button class="buy-btn" onclick="window.location.href='/buy'">Buy</button>
-                    <button class="sell-btn" onclick="window.location.href='/sell'">Sell</button>
+                    <button class="buy-btn" onclick="window.location.href='/buy?ticker={{ row.Ticker }}'">Buy</button>
+                    <button class="sell-btn" onclick="window.location.href='/sell?ticker={{ row.Ticker }}'">Sell</button>
+                    
             </div>
         </td>
     </tr>
+    
     {% endfor %}
 </tbody>
