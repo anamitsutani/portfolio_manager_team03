@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import mysql.connector
 from models.portfolio import Portfolio
+import yfinance as yf
 
 app = Flask(__name__)
 
@@ -27,32 +28,15 @@ def get_amount_by_ticker(cursor):
     tickers = cursor.fetchall()
     return tickers
 
-def get_holdings(tickers):
-    holdings = []
-    for ticker in tickers:
-        symbol = ticker['Ticker']
-        qty = ticker['TotalAmount']
-        try:
-            stock = yf.Ticker(symbol)
-            ticker["CurrPrice"] = stock.info.get("currentPrice")
-            ticker['TotalValue'] = qty * ticker["CurrPrice"]
-            holdings.append(ticker)
-        except Exception as e:
-            return {"error": str(e)}, 500
-    return holdings
-
-def get_portfolio_value(holdings):
-    return sum(ticker.get('TotalValue') for ticker in holdings)
-
 def calc_daily_gain(holdings):
     # get yesterday's closing prices of currently-held assets
-    tickers = [h['Ticker'] for h in holdings]
+    tickers = [h.ticker for h in holdings]
     ticker_str = " ".join(tickers)
     
     data = yf.download(ticker_str, period = '2d', interval = '1d', group_by = 'ticker')
     prev_prices = {}
     for h in holdings:
-        t = h['Ticker']
+        t = h.ticker
         
         prev_price = data[(t, 'Close')].iloc[0]
         prev_prices[t] = prev_price
@@ -62,11 +46,11 @@ def calc_daily_gain(holdings):
     total_gain = 0
     
     for h in holdings:
-        ticker = h['Ticker']
-        amount = h['TotalAmount']
+        ticker = h.ticker
+        amount = h.total_value
         
         prev_price = prev_prices[ticker]
-        curr_price = h['CurrPrice']
+        curr_price = h.current_price
         
         prev_value = amount * prev_price
         curr_value = amount * curr_price
@@ -83,10 +67,10 @@ def calc_daily_gain(holdings):
 def index():
     conn, cursor = start_conn()
     tickers = get_amount_by_ticker(cursor)
-    holdings = get_holdings(tickers)
-    daily_gain, gain_percent = calc_daily_gain(holdings)
+    portfolio = Portfolio(tickers)
+    daily_gain, gain_percent = calc_daily_gain(portfolio.holdings)
     close_conn(conn)
-    return render_template('portfolio.html', holdings=holdings, current_value=get_portfolio_value(holdings), daily_gain=daily_gain, gain_percent=gain_percent)
+    return render_template('portfolio.html', holdings=portfolio.holdings, current_value=portfolio.get_portfolio_value(), daily_gain=daily_gain, gain_percent=gain_percent)
 
 @app.route("/buy", methods=["GET"])
 def buy():
