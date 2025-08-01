@@ -35,7 +35,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-xs font-medium text-gray-600">Daily Gain</p>
-                            <p class="text-lg font-bold text-green-600">+180 (0.72%)</p>
+                            <p class="text-lg font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{ "{:,.2f}".format(daily_gain) }} ({{ "{:,.2f}".format(gain_percent) }}%)</p>
                         </div>
                         <div class="p-2 bg-green-100 rounded-full">
                             <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
