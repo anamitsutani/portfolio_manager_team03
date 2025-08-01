@@ -1,32 +1,62 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
+
+from models.order import Order
+from database.interact_database import insert_transaction
+from datetime import datetime
 import yfinance as yf
+import random
 
 app = Flask(__name__)
 api = Api(app)
 
+def generate_id():
+    return random.randint(100000000, 999999999)
+
+def get_ticker_data(ticker):
+    stock = yf.Ticker(ticker)
+    info = stock.info
+    if 'regularMarketPrice' not in info:
+        return { "error": 404 }
+    return {
+        "symbol": ticker.upper(),
+        "price": info.get("currentPrice", "N/A"),
+        "market_cap": info.get("marketCap", "N/A"),
+        "high_52": info.get("fiftyTwoWeekHigh", "N/A"),
+        "low_52": info.get("fiftyTwoWeekLow", "N/A")
+    }
+
 class Stock(Resource):
     def get(self):
-        symbol = request.args.get("symbol")
-
-        if not symbol:
-            return {"error": "Missing 'symbol' query parameter"}, 400
-
+        ticker = request.args.get("ticker")
+        if not ticker:
+            return { "error": "Missing 'ticker' query parameter" }, 400
         try:
-            stock = yf.Ticker(symbol)
-            info = stock.info
-            if 'regularMarketPrice' not in info:
-                return {"error": f"Ticker '{symbol}' not found"}, 404
-            data = {
-                "symbol": symbol.upper(),
-                "price": info.get("currentPrice", "N/A"),
-                "market_cap": info.get("marketCap", "N/A"),
-                "high_52": info.get("fiftyTwoWeekHigh", "N/A"),
-                "low_52": info.get("fiftyTwoWeekLow", "N/A")
-            }
-            return data, 200
+            data = get_ticker_data(ticker)
+            if "error" in data:
+                return { "error": f"Could not retrieve data for ticker {ticker}" }, 404
+            return get_ticker_data(ticker), 200
         except Exception as e:
-            return {"error": str(e)}, 500
+            return { "error": str(e) }, 500
+
+    def post(self):
+        json_data = request.get_json()
+
+        ticker = json_data.get('ticker')
+        qty = json_data.get('qty')
+        t_id = generate_id()
+        try:
+            data = get_ticker_data(ticker)
+            if "error" in data:
+                return {"error": f"Could not retrieve data for ticker {ticker}"}, 404
+            curr_price = data["price"]
+            order = Order(t_id, ticker, qty, curr_price)
+            insert_transaction(t_id, ticker, qty, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), curr_price)
+            return jsonify(order.to_dict())
+        except Exception as e:
+            return { "error": str(e) }, 500
+
+
 
 class History(Resource):
     def get(self):

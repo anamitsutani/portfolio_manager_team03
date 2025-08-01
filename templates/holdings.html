@@ -13,10 +13,10 @@
         <tbody class="divide-y divide-gray-200">
             {% for row in holdings %}
             <tr class="holdings-row">
-                <td class="px-6 py-4 text-base font-bold text-gray-900">{{ row.Ticker }}</td>
-                <td class="px-6 py-4 text-base text-gray-700">{{ row.TotalAmount }}</td>
-                <td class="px-6 py-4 text-base text-gray-700">${{ row.CurrPrice }}</td>
-                <td class="px-6 py-4 text-base text-gray-700">${{ "{:,.2f}".format(row.TotalValue) }}</td>
+                <td class="px-6 py-4 text-base font-bold text-gray-900">{{ row.ticker }}</td>
+                <td class="px-6 py-4 text-base text-gray-700">{{ row.qty }}</td>
+                <td class="px-6 py-4 text-base text-gray-700">${{ row.current_price }}</td>
+                <td class="px-6 py-4 text-base text-gray-700">${{ "{:,.2f}".format(row.total_value) }}</td>
                 <td class="px-6 py-4">
                     <div class="flex space-x-2">
                         <div class="flex space-x-2">

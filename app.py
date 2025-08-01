@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 import mysql.connector
-import yfinance as yf
+from models.portfolio import Portfolio
 
 app = Flask(__name__)
 
@@ -27,38 +27,14 @@ def get_amount_by_ticker(cursor):
     tickers = cursor.fetchall()
     return tickers
 
-def get_holdings(tickers):
-    holdings = []
-    for ticker in tickers:
-        symbol = ticker['Ticker']
-        qty = ticker['TotalAmount']
-        try:
-            stock = yf.Ticker(symbol)
-            ticker["CurrPrice"] = stock.info.get("currentPrice")
-            ticker['TotalValue'] = qty * ticker["CurrPrice"]
-            holdings.append(ticker)
-        except Exception as e:
-            return {"error": str(e)}, 500
-    return holdings
-
-def get_portfolio_value(holdings):
-    return sum(ticker.get('TotalValue') for ticker in holdings)
-
 @app.route("/", methods=["GET"])
 def index():
     conn, cursor = start_conn()
     tickers = get_amount_by_ticker(cursor)
-    holdings = get_holdings(tickers)
+    portfolio = Portfolio(tickers)
     close_conn(conn)
-    return render_template('portfolio.html', holdings=holdings, current_value=get_portfolio_value(holdings))
+    return render_template('portfolio.html', holdings=portfolio.holdings, current_value=portfolio.get_portfolio_value())
 
-@app.route("/buy", methods=["GET"])
-def buy():
-    return render_template('buy.html', action_type="buy")
-
-@app.route("/sell", methods=["GET"])
-def sell():
-    return render_template('sell.html', action_type="sell")
 
 if __name__ == "__main__":
     app.run(debug=True, host='127.0.0.1', port=5001)
