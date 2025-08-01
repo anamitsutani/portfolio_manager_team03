@@ -1,6 +1,6 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template
 import mysql.connector
-import yfinance as yf
+from models.portfolio import Portfolio
 
 app = Flask(__name__)
 
@@ -78,7 +78,7 @@ def calc_daily_gain(holdings):
     gain_percent = (total_gain / prev_portfolio_val) * 100
     
     return total_gain, gain_percent
-
+  
 @app.route("/", methods=["GET"])
 def index():
     conn, cursor = start_conn()
@@ -92,9 +92,6 @@ def index():
 def buy():
     return render_template('buy.html', action_type="buy")
 
-@app.route("/sell", methods=["GET"])
-def sell():
-    return render_template('sell.html', action_type="sell")
 
 if __name__ == "__main__":
     app.run(debug=True, host='127.0.0.1', port=5001)

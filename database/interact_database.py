@@ -68,7 +68,7 @@ def insert_transaction(id, ticker, amount, transactionTimestamp, priceAtTransact
         database = "portfolio_mgmt"
     )
     
-    query = f"INSERT INTO Transactions (ID, Ticker, Amount, TransactionTimestamp, PriceAtTransaction) VALUES ({id}, {ticker}, {amount}, {transactionTimestamp}, {priceAtTransaction})"
+    query = f"INSERT INTO Transactions (ID, Ticker, Amount, TransactionTimestamp, PriceAtTransaction) VALUES ({id}, \"{ticker}\", {amount}, \"{transactionTimestamp}\", {priceAtTransaction})"
     cursor = db.cursor()
     cursor.execute(query)
     db.commit()
