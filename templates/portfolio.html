@@ -35,7 +35,7 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-xs font-medium text-gray-600">Daily Gain</p>
-                            <p class="text-lg font-bold text-green-600">+180 (0.72%)</p>
+                            <p class="text-lg font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{ "{:,.2f}".format(daily_gain) }} ({{ "{:,.2f}".format(gain_percent) }}%)</p>
                         </div>
                         <div class="p-2 bg-green-100 rounded-full">
                             <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,73 +75,11 @@
             <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Holdings:</h2>
             {% include 'holdings.html' %}
         </div>
-
-               <!-- Sector Allocation Section -->
-        <!--
-        <div class="mb-10">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Sector Allocation</h2>
-            <div class="glass p-8">
-                <div class="flex items-center justify-center">
-                    <div class="relative w-56 h-56">
-                        <canvas id="sectorChart" width="220" height="220"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
-
-        <!-- Market News Section -->
-        <!--
-    <div class="mb-10">
-        <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Market News</h2>
-        <div class="glass p-6">
-            <div class="space-y-4">
-                <div class="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-200">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-900 mb-2">Tech Stocks Rally on AI Breakthrough</h4>
-                            <p class="text-sm text-gray-600 mb-3">Major technology companies see significant gains following announcement of new AI capabilities...</p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>2 hours ago</span>
-                                <span class="mx-2">•</span>
-                                <span class="text-indigo-600 font-medium">Technology</span>
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                Positive
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
-                    <div class="flex items-start justify-between">
-                        <div class="flex-1">
-                            <h4 class="font-semibold text-gray-900 mb-2">Federal Reserve Signals Rate Changes</h4>
-                            <p class="text-sm text-gray-600 mb-3">Market volatility expected as Fed officials hint at potential policy adjustments...</p>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span>5 hours ago</span>
-                                <span class="mx-2">•</span>
-                                <span class="text-yellow-600 font-medium">Economy</span>
-                            </div>
-                        </div>
-                        <div class="ml-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                Neutral
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    -->
     </div>
 
     <!-- Buy/Sell Modal -->
     <div id="trade-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center">
-        {% include 'buy.html' %}
+        {% include 'trade.html' %}
     </div>
 
     <script>
@@ -233,44 +171,6 @@
                 }
             }
         });
-
-        // Sector Allocation Pie Chart
-        /*
-        const ctx = document.getElementById('sectorChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: ['Technology', 'Healthcare', 'Finance', 'Consumer', 'Energy'],
-                datasets: [{
-                    data: [40, 30, 13, 10, 7],
-                    backgroundColor: [
-                        '#6366f1', // Indigo
-                        '#06b6d4', // Cyan
-                        '#6B7280', // Gray
-                        '#10B981', // Green
-                        '#F59E0B'  // Orange
-                    ],
-                    borderWidth: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.label + ': ' + context.parsed + '%';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-        */
     </script>
 </body>
 </html>
