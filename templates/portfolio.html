@@ -7,18 +7,92 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 35px -5px rgba(0, 0, 0, 0.15), 0 8px 20px -2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 1.5rem;
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.1), 0 5px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .header-bg {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .gradient-border {
+            position: relative;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #6366f1, #06b6d4);
+            padding: 2px;
+        }
+        
+        .gradient-border-inner {
+            background: white;
+            border-radius: calc(1rem - 2px);
+            padding: 1.5rem;
+        }
+        
+        .chart-gradient {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+        }
+        
+        .animate-pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
 </head>
 <body class="flex flex-col">
     <!-- Header -->
-    <header class="px-6 py-8">
+    <header class="px-6 py-8 header-bg">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <div class="text-left px-6">
-                <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing:-1px;">Portfolio Value: <span class="text-indigo-600">${{ "{:,.2f}".format(current_value) }}</span></h1>
+                <div class="flex items-center space-x-4">
+                    <div class="p-3 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Portfolio Dashboard</p>
+                        <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing:-1px;">
+                            Value: <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">${{ "{:,.2f}".format(current_value) }}</span>
+                        </h1>
+                    </div>
+                </div>
             </div>
-            <div class="flex items-center">
-                <input type="text" placeholder="Lookup Stock" class="px-5 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 w-56 shadow-sm bg-white/70">
-                <button class="ml-3 p-2 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 text-white shadow hover:from-cyan-400 hover:to-indigo-500 transition-colors">
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <input type="text" placeholder="Lookup Stock" class="pl-12 pr-5 py-3 border border-gray-200/50 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 w-56 shadow-lg bg-white/80 backdrop-blur-sm transition-all">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <button class="p-3 rounded-2xl bg-gradient-to-tr from-indigo-500 to-cyan-400 text-white shadow-lg hover:from-cyan-400 hover:to-indigo-500 transition-all duration-300 hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
@@ -27,32 +101,36 @@
         </div>
     </header>
 
-    <div class="px-6 py-6 max-w-6xl mx-auto">
-        <!-- Key Metrics Section - Moved to top -->
-        <div class="mb-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="metric-card">
+    <div class="px-6 py-8 max-w-6xl mx-auto">
+        <!-- Key Metrics Section -->
+        <div class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                <h2 class="text-2xl font-bold text-gray-900">Portfolio Overview</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="metric-card group">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-medium text-gray-600">Daily Gain</p>
-                            <p class="text-lg font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{ "{:,.2f}".format(daily_gain) }} ({{ "{:,.2f}".format(gain_percent) }}%)</p>
+                            <p class="text-sm font-medium text-gray-500 mb-2">Daily Gain</p>
+                            <p class="text-2xl font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{ "{:,.2f}".format(daily_gain) }} ({{ "{:,.2f}".format(gain_percent) }}%)</p>
                         </div>
-                        <div class="p-2 bg-green-100 rounded-full">
-                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-xl group-hover:from-green-200 group-hover:to-green-300 transition-all">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                             </svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="metric-card">
+                <div class="metric-card group">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-xs font-medium text-gray-600">Total Return</p>
-                            <p class="text-lg font-bold text-green-600">+14.96%</p>
+                            <p class="text-sm font-medium text-gray-500 mb-2">Total Return</p>
+                            <p class="text-2xl font-bold text-green-600">+14.96%</p>
                         </div>
-                        <div class="p-2 bg-green-100 rounded-full">
-                            <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl group-hover:from-blue-200 group-hover:to-blue-300 transition-all">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                             </svg>
                         </div>
@@ -62,23 +140,37 @@
         </div>
 
         <!-- Stock Chart Section -->
-        <div class="mb-6">
-            <div class="glass p-8">
-                <div class="h-80 bg-white/60 rounded-xl border flex items-center justify-center">
-                    <canvas id="candlestickChart" width="800" height="300"></canvas>
+        <div class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                <h2 class="text-2xl font-bold text-gray-900">Performance Chart</h2>
+            </div>
+            <div class="glass p-8 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                <div class="h-80 chart-gradient rounded-xl border border-white/30 flex items-center justify-center relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
+                    <canvas id="candlestickChart" width="800" height="300" class="relative z-10"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Holdings Section - Moved here -->
+        <!-- Holdings Section -->
         <div class="mb-10">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Holdings:</h2>
-            {% include 'holdings.html' %}
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                <h2 class="text-2xl font-bold text-gray-900">Current Holdings</h2>
+            </div>
+            <div class="glass p-6 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                <div class="mt-2">
+                    {% include 'holdings.html' %}
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Buy/Sell Modal -->
-    <div id="trade-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center">
+    <div id="trade-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm">
         {% include 'trade.html' %}
     </div>
 
@@ -96,6 +188,7 @@
                 btn.addEventListener('click', () => tradeModal.classList.add('hidden'));
             });
         });
+        
         // Candlestick Chart Data - Fixed structure
         const candlestickData = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -106,11 +199,12 @@
                 backgroundColor: 'rgba(99,102,241,0.10)',
                 borderWidth: 3,
                 fill: true,
-                tension: 0.3,
+                tension: 0.4,
                 pointBackgroundColor: '#6366f1',
                 pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                pointRadius: 4
+                pointBorderWidth: 3,
+                pointRadius: 5,
+                pointHoverRadius: 7
             }]
         };
 
@@ -129,11 +223,18 @@
                     tooltip: {
                         mode: 'index',
                         intersect: false,
-                        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.95)',
                         titleColor: '#1f2937',
                         bodyColor: '#1f2937',
-                        borderColor: '#e5e7eb',
-                        borderWidth: 1,
+                        borderColor: '#6366f1',
+                        borderWidth: 2,
+                        cornerRadius: 12,
+                        titleFont: {
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            weight: '500'
+                        },
                         callbacks: {
                             label: function(context) {
                                 return `Price: $${context.parsed.y}`;
@@ -148,16 +249,23 @@
                             display: false
                         },
                         ticks: {
-                            color: '#6b7280'
+                            color: '#6b7280',
+                            font: {
+                                weight: '500'
+                            }
                         }
                     },
                     y: {
                         display: true,
                         grid: {
-                            color: 'rgba(99,102,241,0.10)'
+                            color: 'rgba(99,102,241,0.1)',
+                            lineWidth: 1
                         },
                         ticks: {
                             color: '#6b7280',
+                            font: {
+                                weight: '500'
+                            },
                             callback: function(value) {
                                 return '$' + value;
                             }
