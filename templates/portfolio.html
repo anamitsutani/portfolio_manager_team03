@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+<body class="flex flex-col">
     <!-- Header -->
     <header class="px-6 py-8">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
@@ -27,7 +27,7 @@
         </div>
     </header>
 
-        <div class="px-6 py-6 max-w-6xl mx-auto">
+    <div class="px-6 py-6 max-w-6xl mx-auto">
         <!-- Key Metrics Section - Moved to top -->
         <div class="mb-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -92,54 +92,72 @@
 
         <!-- Market News Section -->
         <!--
-        <div class="mb-10">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Market News</h2>
-            <div class="glass p-6">
-                <div class="space-y-4">
-                    <div class="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-200">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-gray-900 mb-2">Tech Stocks Rally on AI Breakthrough</h4>
-                                <p class="text-sm text-gray-600 mb-3">Major technology companies see significant gains following announcement of new AI capabilities...</p>
-                                <div class="flex items-center text-xs text-gray-500">
-                                    <span>2 hours ago</span>
-                                    <span class="mx-2">•</span>
-                                    <span class="text-indigo-600 font-medium">Technology</span>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                    Positive
-                                </span>
+    <div class="mb-10">
+        <h2 class="text-xl font-bold text-gray-900 mb-4 tracking-tight">Market News</h2>
+        <div class="glass p-6">
+            <div class="space-y-4">
+                <div class="p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl border border-indigo-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-2">Tech Stocks Rally on AI Breakthrough</h4>
+                            <p class="text-sm text-gray-600 mb-3">Major technology companies see significant gains following announcement of new AI capabilities...</p>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span>2 hours ago</span>
+                                <span class="mx-2">•</span>
+                                <span class="text-indigo-600 font-medium">Technology</span>
                             </div>
                         </div>
+                        <div class="ml-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Positive
+                            </span>
+                        </div>
                     </div>
-                    
-                    <div class="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
-                        <div class="flex items-start justify-between">
-                            <div class="flex-1">
-                                <h4 class="font-semibold text-gray-900 mb-2">Federal Reserve Signals Rate Changes</h4>
-                                <p class="text-sm text-gray-600 mb-3">Market volatility expected as Fed officials hint at potential policy adjustments...</p>
-                                <div class="flex items-center text-xs text-gray-500">
-                                    <span>5 hours ago</span>
-                                    <span class="mx-2">•</span>
-                                    <span class="text-yellow-600 font-medium">Economy</span>
-                                </div>
+                </div>
+
+                <div class="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-gray-900 mb-2">Federal Reserve Signals Rate Changes</h4>
+                            <p class="text-sm text-gray-600 mb-3">Market volatility expected as Fed officials hint at potential policy adjustments...</p>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span>5 hours ago</span>
+                                <span class="mx-2">•</span>
+                                <span class="text-yellow-600 font-medium">Economy</span>
                             </div>
-                            <div class="ml-4">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                    Neutral
-                                </span>
-                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                Neutral
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        -->
+    </div>
+    -->
+    </div>
+
+    <!-- Buy/Sell Modal -->
+    <div id="trade-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center">
+        {% include 'buy.html' %}
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tradeModal = document.getElementById('trade-modal');
+            const openBtns = document.querySelectorAll('.open-trade-modal');
+            const closeBtns = document.querySelectorAll('.close-trade-modal');
+
+            openBtns.forEach((btn) => {
+                btn.addEventListener('click', () => tradeModal.classList.remove('hidden'));
+            });
+
+            closeBtns.forEach((btn) => {
+                btn.addEventListener('click', () => tradeModal.classList.add('hidden'));
+            });
+        });
         // Candlestick Chart Data - Fixed structure
         const candlestickData = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

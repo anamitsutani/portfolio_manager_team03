@@ -19,10 +19,15 @@
                 <td class="px-6 py-4 text-base text-gray-700">${{ "{:,.2f}".format(row.TotalValue) }}</td>
                 <td class="px-6 py-4">
                     <div class="flex space-x-2">
-                        <button class="buy-btn">Buy</button>
-                        <button class="sell-btn">Sell</button>
+                        <div class="flex space-x-2">
+                            <button class="buy-btn open-trade-modal">Buy</button>
+                            <button class="sell-btn open-trade-modal">Sell</button>
+                        </div>
                     </div>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
+
+        </table>
+</div>
