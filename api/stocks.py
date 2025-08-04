@@ -86,6 +86,7 @@ class History(Resource):
             return {"error": str(e)}, 500
 
 api.add_resource(Stock, '/api/stock')
+
 api.add_resource(History, '/api/history')
 
 if __name__ == '__main__':
