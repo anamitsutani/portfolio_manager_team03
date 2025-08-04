@@ -1,3 +1,12 @@
+import sys
+import os
+from os.path import realpath, dirname
+SRC_PATH = dirname(realpath(__file__))
+sys.path.append(os.path.join(SRC_PATH, "database"))
+sys.path.append(os.path.join(SRC_PATH, "models"))
+
+print(sys.path)
+
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
@@ -19,7 +28,7 @@ def generate_id():
 def get_ticker_data(ticker):
     stock = yf.Ticker(ticker)
     info = stock.info
-    if 'regularMarketPrice' not in info:
+    if 'currentPrice' not in info:
         return { "error": 404 }
     return {
         "symbol": ticker.upper(),
