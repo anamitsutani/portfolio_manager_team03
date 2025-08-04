@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
+from flask_cors import CORS
 
 from models.order import Order
 from database.interact_database import insert_transaction
@@ -9,6 +10,8 @@ import random
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5001"}})
+
 
 def generate_id():
     return random.randint(100000000, 999999999)
@@ -82,8 +85,8 @@ class History(Resource):
         except Exception as e:
             return {"error": str(e)}, 500
 
-api.add_resource(Stock, '/stock')
-api.add_resource(History, '/history')
+api.add_resource(Stock, '/api/stock')
+api.add_resource(History, '/api/history')
 
 if __name__ == '__main__':
     app.run(debug=True)
