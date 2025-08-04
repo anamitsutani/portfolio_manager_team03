@@ -47,7 +47,7 @@ def calc_daily_gain(holdings):
     
     for h in holdings:
         ticker = h.ticker
-        amount = h.total_value
+        amount = h.qty
         
         prev_price = prev_prices[ticker]
         curr_price = h.current_price
