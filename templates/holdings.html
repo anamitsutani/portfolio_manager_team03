@@ -1,5 +1,5 @@
 <div class="glass overflow-hidden">
-    <table class="w-full">
+    <table class="w-full holdings-table">
         <thead class="bg-white/60">
             <tr>
                 <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Ticker</th>
@@ -13,7 +13,7 @@
         <tbody class="divide-y divide-gray-200">
             {% for row in holdings %}
             <tr class="holdings-row">
-                <td class="px-6 py-4 text-base font-bold text-gray-900">{{ row.ticker }}</td>
+                <td class="px-6 py-4 text-base font-bold text-gray-900 ticker">{{ row.ticker }}</td>
                 <td class="px-6 py-4 text-base text-gray-700">{{ row.qty }}</td>
                 <td class="px-6 py-4 text-base text-gray-700">${{ row.current_price }}</td>
                 <td class="px-6 py-4 text-base text-gray-700">${{ "{:,.2f}".format(row.total_value) }}</td>
