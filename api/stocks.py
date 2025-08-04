@@ -82,7 +82,7 @@ class History(Resource):
         except Exception as e:
             return {"error": str(e)}, 500
 
-api.add_resource(Stock, '/stock')
+api.add_resource(Stock, '/api/stock')
 api.add_resource(History, '/history')
 
 if __name__ == '__main__':
