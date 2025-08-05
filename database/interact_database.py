@@ -11,6 +11,15 @@ db = mysql.connector.connect(
     )
 cursor = db.cursor()
 
+def get_ticker_amount(uuid, ticker):
+    query = f"""
+        SELECT cast(sum(Amount) AS SIGNED) as TotalAmount
+        FROM transactions WHERE UUID={uuid} AND Ticker=\"{ticker}\"
+        GROUP BY Ticker
+        """
+    cursor.execute(query)
+    return cursor.fetchall()[0][0]
+
 def update_balance_db(uuid):
     """
         Inserts a new record with updated balance into balances table based on new transactions and updates

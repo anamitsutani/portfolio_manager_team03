@@ -38,6 +38,10 @@ def index():
                            daily_gain=daily_gain,
                            gain_percent=gain_percent,
                            )
+    
+@app.route("/trade", methods=["GET"])
+def trade():
+    return render_template('trade.html')
 
 
 if __name__ == "__main__":

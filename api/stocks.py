@@ -5,8 +5,6 @@ SRC_PATH = dirname(realpath(__file__))
 sys.path.append(os.path.join(SRC_PATH, "database"))
 sys.path.append(os.path.join(SRC_PATH, "models"))
 
-print(sys.path)
-
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
@@ -67,9 +65,9 @@ class Stock(Resource):
             user = User(user_id)
 
             order = Order(generate_id(), user_id, ticker, json_data.get('qty'), curr_price)
-            success = user.place_order(order)
-            if not success:
-                return {"error": "User has insufficient balance to place order"}, 400
+            result = user.place_order(order)
+            if "error" in result:
+                return {"error": result["error"]}, 400
             return jsonify(order.to_dict())
 
         except Exception as e:
