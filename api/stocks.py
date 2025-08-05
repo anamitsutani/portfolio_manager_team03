@@ -12,8 +12,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 
 from models.order import Order
-from database.interact_database import insert_transaction
-from datetime import datetime
+from models.user import User
 import yfinance as yf
 import random
 
@@ -53,22 +52,28 @@ class Stock(Resource):
 
     def post(self):
         json_data = request.get_json()
+        for parameter in ["ticker", "qty", "user_id"]:
+            if not json_data.get(parameter):
+                return {"error": f"Missing parameter {parameter} in json request body"}, 400
 
-        ticker = json_data.get('ticker')
-        qty = json_data.get('qty')
-        t_id = generate_id()
         try:
+            ticker = json_data.get('ticker')
             data = get_ticker_data(ticker)
             if "error" in data:
                 return {"error": f"Could not retrieve data for ticker {ticker}"}, 404
             curr_price = data["price"]
-            order = Order(t_id, ticker, qty, curr_price)
-            insert_transaction(t_id, ticker, qty, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), curr_price)
+
+            user_id = json_data.get('user_id')
+            user = User(user_id)
+
+            order = Order(generate_id(), user_id, ticker, json_data.get('qty'), curr_price)
+            success = user.place_order(order)
+            if not success:
+                return {"error": "User has insufficient balance to place order"}, 400
             return jsonify(order.to_dict())
+
         except Exception as e:
             return { "error": str(e) }, 500
-
-
 
 class History(Resource):
     def get(self):
@@ -94,9 +99,23 @@ class History(Resource):
         except Exception as e:
             return {"error": str(e)}, 500
 
+class Balance(Resource):
+    def get(self):
+        user_id = request.args.get("userId")
+        if not user_id:
+            return { "error": "Missing 'userId' query parameter" }, 400
+        try:
+            user = User(user_id)
+            return { "balance": str(user.balance) }
+        except Exception as e:
+            return { "error": str(e) }, 500
+
+
 api.add_resource(Stock, '/api/stock')
 
 api.add_resource(History, '/api/history')
+
+api.add_resource(Balance, '/api/balance')
 
 if __name__ == '__main__':
     app.run(debug=True)
