@@ -1,5 +1,15 @@
+import sys
+import os
+from os.path import realpath, dirname
+SRC_PATH = dirname(realpath(__file__))
+sys.path.append(os.path.join(SRC_PATH, "database"))
+sys.path.append(os.path.join(SRC_PATH, "models"))
+
+print(sys.path)
+
 from flask import Flask, request, jsonify
 from flask_restful import Resource, Api
+from flask_cors import CORS
 
 from models.order import Order
 from database.interact_database import insert_transaction
@@ -9,6 +19,8 @@ import random
 
 app = Flask(__name__)
 api = Api(app)
+CORS(app, resources={r"/api/*": {"origins": "http://127.0.0.1:5001"}})
+
 
 def generate_id():
     return random.randint(100000000, 999999999)
@@ -16,7 +28,7 @@ def generate_id():
 def get_ticker_data(ticker):
     stock = yf.Ticker(ticker)
     info = stock.info
-    if 'regularMarketPrice' not in info:
+    if 'currentPrice' not in info:
         return { "error": 404 }
     return {
         "symbol": ticker.upper(),
@@ -82,8 +94,9 @@ class History(Resource):
         except Exception as e:
             return {"error": str(e)}, 500
 
-api.add_resource(Stock, '/stock')
-api.add_resource(History, '/history')
+api.add_resource(Stock, '/api/stock')
+
+api.add_resource(History, '/api/history')
 
 if __name__ == '__main__':
     app.run(debug=True)
