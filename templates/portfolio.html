@@ -11,9 +11,28 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body class="flex flex-col">
+    <!-- React Bits Inspired Animated Background -->
+    <div class="animated-background">
+        <!-- Animated Grid Pattern -->
+        <div class="grid-pattern"></div>
+        
+        <!-- Sleek Geometric Elements -->
+        <div class="geometric-element floating-line-1"></div>
+        <div class="geometric-element floating-line-2"></div>
+        <div class="geometric-element floating-line-3"></div>
+        <div class="geometric-element diamond-1"></div>
+        <div class="geometric-element diamond-2"></div>
+        <div class="geometric-element rect-1"></div>
+        <div class="geometric-element rect-2"></div>
+        
+        <!-- Gradient Orbs -->
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
     <!-- Header -->
     <header class="px-6 py-8 header-bg">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="w-full flex justify-between items-center">
             <div class="text-left px-6">
                 <div class="flex items-center space-x-4">
                     <div class="p-3 bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-xl shadow-lg">
@@ -26,6 +45,9 @@
                         <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing:-1px;">
                             Value: <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">${{ "{:,.2f}".format(current_value) }}</span>
                         </h1>
+                        <p class="text-sm text-gray-600 mt-1">
+                            Buying Power: <span class="font-semibold text-green-600">${{ "{:,.2f}".format(buying_power|default(25000.00)) }}</span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -49,69 +71,77 @@
         </div>
     </header>
 
-    <div class="px-6 py-8 max-w-6xl mx-auto">
-        <!-- Key Metrics Section -->
-        <div class="mb-12">
-            <div class="flex items-center mb-6">
-                <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
-                <h2 class="text-2xl font-bold text-gray-900">Portfolio Overview</h2>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="metric-card group">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500 mb-2">Daily Gain</p>
-                            <p class="text-2xl font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{ "{:+,.2f}".format(daily_gain) }} ({{ "{:+,.2f}".format(gain_percent) }}%)</p>
+    <div class="px-6 py-8 w-full">
+        <!-- Two Column Layout -->
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+            <!-- Left Column: Portfolio Overview and Performance Chart -->
+            <div class="space-y-8">
+                <!-- Key Metrics Section -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                        <h2 class="text-2xl font-bold text-gray-900">Portfolio Overview</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="metric-card group">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-2">Daily Gain</p>
+                                    <p class="text-2xl font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{"{:+,.2f}".format(daily_gain) }} ({{"{:+,.2f}".format(gain_percent) }}%)</p>
+                                </div>
+                                <div class="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-xl group-hover:from-green-200 group-hover:to-green-300 transition-all">
+                                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-xl group-hover:from-green-200 group-hover:to-green-300 transition-all">
-                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                            </svg>
+
+                        <div class="metric-card group">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-2">Total Return</p>
+                                    <p class="text-2xl font-bold text-green-600">+14.96%</p>
+                                </div>
+                                <div class="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl group-hover:from-blue-200 group-hover:to-blue-300 transition-all">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="metric-card group">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-500 mb-2">Total Return</p>
-                            <p class="text-2xl font-bold text-green-600">+14.96%</p>
-                        </div>
-                        <div class="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl group-hover:from-blue-200 group-hover:to-blue-300 transition-all">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
-                            </svg>
+                <!-- Stock Chart Section -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                        <h2 class="text-2xl font-bold text-gray-900">Performance Chart</h2>
+                    </div>
+                    <div class="glass p-8 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                        <div class="h-80 chart-gradient rounded-xl border border-white/30 flex items-center justify-center relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
+                            <canvas id="candlestickChart" width="800" height="300" class="relative z-10"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Stock Chart Section -->
-        <div class="mb-12">
-            <div class="flex items-center mb-6">
-                <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
-                <h2 class="text-2xl font-bold text-gray-900">Performance Chart</h2>
-            </div>
-            <div class="glass p-8 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
-                <div class="h-80 chart-gradient rounded-xl border border-white/30 flex items-center justify-center relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-white/50 to-transparent"></div>
-                    <canvas id="candlestickChart" width="800" height="300" class="relative z-10"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Holdings Section -->
-        <div class="mb-10">
-            <div class="flex items-center mb-6">
-                <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
-                <h2 class="text-2xl font-bold text-gray-900">Current Holdings</h2>
-            </div>
-            <div class="glass p-6 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
-                <div class="mt-2">
-                    {% include 'holdings.html' %}
+            <!-- Right Column: Holdings -->
+            <div>
+                <div class="sticky top-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                        <h2 class="text-2xl font-bold text-gray-900">Current Holdings</h2>
+                    </div>
+                    <div class="glass p-6 relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                        <div class="mt-2">
+                            {% include 'holdings.html' %}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
