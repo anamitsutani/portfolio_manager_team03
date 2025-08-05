@@ -34,8 +34,9 @@ def index():
     tickers = get_amount_by_ticker(cursor)
     portfolio = Portfolio(tickers)
     daily_gain, gain_percent = portfolio.calc_daily_gain()
+    unrealized, unrealized_percent = portfolio.calc_unrealized_gain(get_transactions(cursor))
     close_conn(conn)
-    return render_template('portfolio.html', holdings=portfolio.holdings, current_value=portfolio.get_portfolio_value(), daily_gain=daily_gain, gain_percent=gain_percent)
+    return render_template('portfolio.html', holdings=portfolio.holdings, current_value=portfolio.get_portfolio_value(), daily_gain=daily_gain, gain_percent=gain_percent, total_unrealized=unrealized, unrealized_percent=unrealized_percent)
 
 @app.route("/buy", methods=["GET"])
 def buy():
