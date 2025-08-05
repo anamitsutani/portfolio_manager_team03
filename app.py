@@ -37,9 +37,9 @@ def index():
     close_conn(conn)
     return render_template('portfolio.html', holdings=portfolio.holdings, current_value=portfolio.get_portfolio_value(), daily_gain=daily_gain, gain_percent=gain_percent)
 
-@app.route("/buy", methods=["GET"])
-def buy():
-    return render_template('buy.html', action_type="buy")
+@app.route("/trade", methods=["GET"])
+def trade():
+    return render_template('trade.html')
 
 
 if __name__ == "__main__":
