@@ -49,10 +49,22 @@ openBtns.forEach((btn) => {
         // add selector to clicked element
         const row = btn.closest('tr');
         const tickerSelector = row.querySelector('.ticker')
+        const priceSelector = row.querySelector('td:nth-child(3)')
         if (tickerSelector) {
+            const current_price = row.querySelector('.current_price');
             ticker = tickerSelector.textContent.trim();
             tickerHeader.textContent = ticker;
-            orderTicker.textContent = ticker
+            orderTicker.textContent = ticker;
+        }
+        if (priceSelector) {
+            const priceText = priceSelector.textContent.trim();
+            currentPrice = parseFloat(priceText.replace('$', ''));
+            if (currentPriceElement){
+                currentPriceElement.textContent = `$${currentPrice.toFixed(2)}`;
+            }
+            if (orderPricePerShare){
+                orderPricePerShare.textContent =  `$${currentPrice.toFixed(2)}`;
+            }
         }
         
     });
