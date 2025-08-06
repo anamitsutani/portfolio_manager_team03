@@ -87,3 +87,52 @@ class Portfolio:
         unrealized_percent = ((total_current_value - float(total_cost_basis)) / float(total_cost_basis)) * 100
         return total_unrealized, unrealized_percent
     
+    def calc_realized_gain(self, transactions):
+        if not transactions:
+            return 0
+        
+        df = pd.DataFrame(transactions)
+        df = df.sort_values(by = 'TransactionTimestamp')
+        
+        # track ticker open lots
+        open_lots = {}
+        total_realized = 0
+        
+        for _, row in df.iterrows():
+            ticker = row['Ticker']
+            amount = row['Amount']
+            price = row['PriceAtTransaction']
+            
+            if ticker not in open_lots:
+                open_lots[ticker] = []
+                
+            if amount > 0:
+                # transaction is a buy - add to open lots
+                open_lots[ticker].append({'amount': amount, 'price': price})
+            else:
+                sell_amount = -amount
+                sell_price = price
+                gain = 0
+                
+                while sell_amount > 0 and open_lots[ticker]:
+                    lot = open_lots[ticker][0]
+                    lot_amount = lot['amount']
+                    lot_price = lot['price']
+                    
+                    if lot_amount <= sell_amount:
+                        # use lot entirely
+                        gain = (sell_price - lot_price) * lot_amount
+                        total_realized += gain
+                        sell_amount -= lot_amount
+                        open_lots[ticker].pop(0)
+                    else:
+                        # use lot partially
+                        gain = (sell_price - lot_price) * sell_amount
+                        total_realized += gain
+                        lot['amount'] -= sell_amount
+                        sell_amount = 0
+                        
+        return total_realized
+    
+    def calc_pnl(self, transactions):
+        return float(self.calc_unrealized_gain(transactions)[0]) + float(self.calc_realized_gain(transactions))
