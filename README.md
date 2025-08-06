@@ -6,7 +6,8 @@ DaniThompson1406
 ## Running the application
 
 ### Installing dependencies
-Ensure that your machine has the necessary dependencies installed, located in requirements.txt in the repository.
+Ensure that your machine has the necessary dependencies installed, located in requirements.txt in the repository. Use **pip install -r requirements.txt**
+to smothly install all required dependencies.
 
 ### Running instructions
 1. In a command-line terminal, run the API stocks script 'python -m api.stocks'.
