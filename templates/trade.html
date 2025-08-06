@@ -34,8 +34,7 @@
         <div class="glass p-4 mb-6">
             <div class="text-center">
                 <p class="text-sm font-medium text-gray-600 mb-2">Current Price</p>
-                <p class="text-3xl font-bold text-gray-900" id="current-price">$150.25</p>
-                <p class="text-sm text-green-600 mt-1" id="price-change">+$2.15 (+1.45%)</p>
+                <p class="text-3xl font-bold text-gray-900" id="current-price"></p>
             </div>
         </div>
 
@@ -107,6 +106,6 @@
         </div>
     </div>
 
-    <script type="text/javascript">var userId={{user_id}}</script>
+    <script type="module" src="{{ url_for('static', filename='scripts/trade.js') }}"></script>
 </body>
 </html>

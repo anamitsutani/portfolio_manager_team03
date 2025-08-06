@@ -19,7 +19,7 @@ const closeBtns = document.querySelectorAll('.close-trade-modal');
 
 const stocksApi = 'http://127.0.0.1:5000/api/stock';
 
-let ticker;
+window.ticker;
 
 let isBuyMode = true;
 let currentPrice = 150.25;
@@ -33,7 +33,7 @@ function showFeedbackAlert(header, message, isSuccess) {
     } else {
         alertBox.classList.remove('alert-success')
         alertBox.classList.add('alert-error');
-        alertMessageHeader.textContent = header + "Order Failed";
+        alertMessageHeader.textContent = header + " Failed";
     }
 
     // Set message and show
@@ -52,10 +52,9 @@ openBtns.forEach((btn) => {
         const tickerSelector = row.querySelector('.ticker')
         const priceSelector = row.querySelector('td:nth-child(3)')
         if (tickerSelector) {
-            const current_price = row.querySelector('.current_price');
-            ticker = tickerSelector.textContent.trim();
-            tickerHeader.textContent = ticker;
-            orderTicker.textContent = ticker;
+            window.ticker = tickerSelector.textContent.trim();
+            tickerHeader.textContent = window.ticker;
+            orderTicker.textContent = window.ticker;
         }
         if (priceSelector) {
             const priceText = priceSelector.textContent.trim();
@@ -132,7 +131,7 @@ sellToggle.addEventListener('click', () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ticker,
+                    ticker: window.ticker,
                     qty: shares * actionMultiplier,
                     user_id: userId
                 })
@@ -181,4 +180,4 @@ window.dismissFeedback = dismissFeedback;
      }
  };
 
- export {showFeedbackAlert, alertBox, alertMessageHeader, dismissFeedback }
+ export {showFeedbackAlert, tradeModal }

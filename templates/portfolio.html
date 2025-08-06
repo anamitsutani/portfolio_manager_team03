@@ -61,7 +61,7 @@
                             Value: <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">${{ "{:,.2f}".format(current_value) }}</span>
                         </h1>
                         <p class="text-sm text-gray-600 mt-1">
-                            Buying Power: <span class="font-semibold text-green-600">${{ "{:,.2f}".format(buying_power|default(25000.00)) }}</span>
+                            Buying Power: <span id="buying-power-text" class="font-semibold text-green-600"></span>
                         </p>
                     </div>
                 </div>
@@ -168,10 +168,6 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-        });
-        
         // Candlestick Chart Data - Fixed structure
         const candlestickData = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -263,6 +259,8 @@
             }
         });
     </script>
+    <script type="text/javascript">var userId={{user_id}}</script>
+    <script type="module" src="{{ url_for('static', filename='scripts/balance.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='scripts/lookup.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='scripts/trade.js') }}"></script>
 </body>

@@ -85,6 +85,7 @@ class History(Resource):
 
         try:
             stock = yf.Ticker(symbol)
+            print(stock)
             hist = stock.history(period=period)
 
             if hist.empty:

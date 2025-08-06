@@ -47,10 +47,6 @@ def index():
                            unrealized_percent=unrealized_percent
                            )
 
-@app.route("/trade", methods=["GET"])
-def trade():
-    return render_template('trade.html')
-
 
 if __name__ == "__main__":
     app.run(debug=True, host='127.0.0.1', port=5001)
