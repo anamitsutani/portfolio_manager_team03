@@ -30,6 +30,7 @@ def index():
     tickers = get_amount_by_ticker(cursor, user_id)
     portfolio = Portfolio(tickers)
     daily_gain, gain_percent = portfolio.calc_daily_gain()
+    unrealized, unrealized_percent = portfolio.calc_unrealized_gain(get_transactions(cursor))
     close_conn(conn)
     return render_template('portfolio.html',
                            user_id = user_id,
@@ -38,7 +39,7 @@ def index():
                            daily_gain=daily_gain,
                            gain_percent=gain_percent,
                            )
-    
+
 @app.route("/trade", methods=["GET"])
 def trade():
     return render_template('trade.html')

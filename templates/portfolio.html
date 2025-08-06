@@ -73,27 +73,90 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-medium text-gray-500 mb-2">Daily Gain</p>
-                            <p class="text-2xl font-bold {{'text-green-600' if daily_gain >= 0 else 'text-red-600'}}">{{ "{:+,.2f}".format(daily_gain) }} ({{ "{:+,.2f}".format(gain_percent) }}%)</p>
+                            {% if daily_gain > 0 %}
+                            <!-- shown in green -->
+                            <p class="text-2xl font-bold text-green-600">{{ "{:+,.2f}".format(daily_gain) }} ({{ "{:+,.2f}".format(gain_percent) }}%)</p>
+
+                            {% elif daily_gain < 0 %}
+                            <!-- shown in red -->
+                            <p class="text-2xl font-bold text-red-600">{{ "{:+,.2f}".format(daily_gain) }} ({{ "{:+,.2f}".format(gain_percent) }}%)</p>
+
+                            {% else %}
+                            <!-- shown in gray -->
+                            <p class="text-2xl font-bold text-gray-600">{{ "{:+,.2f}".format(daily_gain) }} ({{ "{:+,.2f}".format(gain_percent) }}%)</p>
+                            {% endif %}
                         </div>
+                        
+                        {% if daily_gain > 0 %}
+                        <!-- shown in green -->
                         <div class="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-xl group-hover:from-green-200 group-hover:to-green-300 transition-all">
                             <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                             </svg>
                         </div>
+
+                        {% elif daily_gain < 0 %}
+                        <!-- shown in red -->
+                        <div class="p-3 bg-gradient-to-br from-red-100 to-red-200 rounded-xl group-hover:from-red-200 group-hover:to-red-300 transition-all">
+                            <svg class="w-6 h-6 text-red-600" style= "transform: rotate(180deg) scaleX(-1);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+
+                        {% else %}
+                        <!-- shown in gray -->
+                        <div class="p-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl group-hover:from-gray-200 group-hover:to-gray-300 transition-all">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <line x1="4" y1="12" x2="20" y2="12" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        {% endif %}
+
                     </div>
                 </div>
 
                 <div class="metric-card group">
                     <div class="flex items-center justify-between">
                         <div>
-                            <p class="text-sm font-medium text-gray-500 mb-2">Total Return</p>
-                            <p class="text-2xl font-bold text-green-600">+14.96%</p>
+                            <p class="text-sm font-medium text-gray-500 mb-2">Total Unrealized Gains</p>
+                            {% if total_unrealized > 0 %}
+                            <!-- shown in green -->
+                            <p class="text-2xl font-bold text-green-600">{{ "{:+,.2f}".format(total_unrealized) }} ({{ "{:+,.2f}".format(unrealized_percent) }}%)</p>
+
+                            {% elif total_unrealized < 0 %}
+                            <!-- shown in red -->
+                            <p class="text-2xl font-bold text-red-600">{{ "{:+,.2f}".format(total_unrealized) }} ({{ "{:+,.2f}".format(unrealized_percent) }}%)</p>
+
+                            {% else %}
+                            <!-- shown in gray -->
+                            <p class="text-2xl font-bold text-gray-600">{{ "{:+,.2f}".format(total_unrealized) }} ({{ "{:+,.2f}".format(unrealized_percent) }}%)</p>
+                            {% endif %}
                         </div>
-                        <div class="p-3 bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl group-hover:from-blue-200 group-hover:to-blue-300 transition-all">
-                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+
+                        {% if total_unrealized > 0 %}
+                        <!-- shown in green -->
+                        <div class="p-3 bg-gradient-to-br from-green-100 to-green-200 rounded-xl group-hover:from-green-200 group-hover:to-green-300 transition-all">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
                             </svg>
                         </div>
+
+                        {% elif total_unrealized < 0 %}
+                        <!-- shown in red -->
+                        <div class="p-3 bg-gradient-to-br from-red-100 to-red-200 rounded-xl group-hover:from-red-200 group-hover:to-red-300 transition-all">
+                            <svg class="w-6 h-6 text-red-600" style= "transform: rotate(180deg) scaleX(-1);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+
+                        {% else %}
+                        <!-- shown in gray -->
+                        <div class="p-3 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl group-hover:from-gray-200 group-hover:to-gray-300 transition-all">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <line x1="4" y1="12" x2="20" y2="12" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
