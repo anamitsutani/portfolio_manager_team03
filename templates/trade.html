@@ -9,18 +9,6 @@
 </head>
 <body>
     <div class="container mx-auto px-4 py-4 bg-white max-w-2xl rounded-lg shadow-lg">
-    <!-- Feedback Alert -->
-    <div id="feedback-alert" class="flex flex-col fixed top-4 right-4 hidden z-50 px-4 py-3 rounded shadow-lg" role="alert">
-        <div class="flex justify-between items-center">
-            <span id="feedback-message-header" class="font-bold"></span>
-            <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors" onclick="dismissFeedback()">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-        <span id="feedback-message" class="block sm:inline"></span>
-    </div>
 
     <!-- Header -->
     <header class="px-4 py-4">
@@ -120,6 +108,6 @@
     </div>
 
     <script type="text/javascript">var userId={{user_id}}</script>
-    <script src="{{ url_for('static', filename='scripts/trade.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='scripts/trade.js') }}"></script>
 </body>
 </html>
