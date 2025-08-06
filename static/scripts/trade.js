@@ -26,7 +26,7 @@ let isBuyMode = true;
 let currentPrice = 150.25;
 
 // show response alert
-function showFeedbackAlert(message, isSuccess) {
+export function showFeedbackAlert(message, isSuccess) {
     if (isSuccess) {
         alertBox.classList.add('alert-success')
         alertMessageHeader.textContent = "Order Confirmed";

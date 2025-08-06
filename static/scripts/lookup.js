@@ -1,21 +1,14 @@
-console.log('lookup.js loaded');
+import { showFeedbackAlert } from './trade.js'
 
 const inp = document.getElementById("ticker-input");
 const btn = document.getElementById("lookup-btn");
-const out = document.getElementById("out");
 
 const stockApiLink = 'http://127.0.0.1:5000/api/stock';
-
-console.log('Elements found:', {
-    input: inp,
-    button: btn,
-    output: out
-});
 
 async function lookup() {
     const ticker = inp.value.trim().toUpperCase();
     if (!ticker) {
-        out.textContent = "Please enter a ticker symbol";
+        showFeedbackAlert("Please enter a ticker symbol", false);
         return;
     }
     
@@ -23,20 +16,19 @@ async function lookup() {
         const res = await fetch(`${stockApiLink}?ticker=${ticker}`, {
             method: 'GET'
         });
-
-        if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
-        
-        // display the stock data
-        if (data.error) {
-            out.textContent = "Ticker does not exists. Please try again!";
+
+        if (!res.ok) {
+            if (res.status===404) {
+                showFeedbackAlert("Could not find data for ticker " + ticker, false);
+            } else {
+                showFeedbackAlert("Unnexpected error while retrieving ticker: " + data.error, false);
+            }
         } else {
-            
             showTradeModal(data, ticker);
-            out.textContent = "";
         }
     } catch(e) {
-        out.textContent = "Ticker does not exists. Please try again!";
+        showFeedbackAlert("Error while retrieving ticker: " + e, false);
     }
 }
 
