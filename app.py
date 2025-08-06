@@ -18,24 +18,27 @@ def start_conn():
 def close_conn(conn):
     conn.close()
 
-def get_transactions(cursor):
-    cursor.execute("SELECT * FROM transactions")
-    data = cursor.fetchall()
-    return data
-
-def get_amount_by_ticker(cursor):
-    cursor.execute("SELECT Ticker, cast(sum(Amount) AS SIGNED) as TotalAmount FROM transactions GROUP BY Ticker")
+def get_amount_by_ticker(cursor, uuid):
+    cursor.execute(f"SELECT Ticker, cast(sum(Amount) AS SIGNED) as TotalAmount FROM transactions WHERE UUID={uuid} GROUP BY Ticker")
     tickers = cursor.fetchall()
     return tickers
   
 @app.route("/", methods=["GET"])
 def index():
     conn, cursor = start_conn()
-    tickers = get_amount_by_ticker(cursor)
+    user_id = 1
+    tickers = get_amount_by_ticker(cursor, user_id)
     portfolio = Portfolio(tickers)
     daily_gain, gain_percent = portfolio.calc_daily_gain()
+    unrealized, unrealized_percent = portfolio.calc_unrealized_gain(get_transactions(cursor))
     close_conn(conn)
-    return render_template('portfolio.html', holdings=portfolio.holdings, current_value=portfolio.get_portfolio_value(), daily_gain=daily_gain, gain_percent=gain_percent)
+    return render_template('portfolio.html',
+                           user_id = user_id,
+                           holdings=portfolio.holdings,
+                           current_value=portfolio.get_portfolio_value(),
+                           daily_gain=daily_gain,
+                           gain_percent=gain_percent,
+                           )
 
 @app.route("/trade", methods=["GET"])
 def trade():

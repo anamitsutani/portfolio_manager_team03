@@ -1,5 +1,6 @@
 import yfinance as yf
 from models.holding import Holding
+import pandas as pd
 
 class Portfolio:
     def __init__(self, tickers):
@@ -25,7 +26,11 @@ class Portfolio:
         tickers = [h.ticker for h in self.holdings]
         ticker_str = " ".join(tickers)
         
-        data = yf.download(ticker_str, period = '2d', interval = '1d', group_by = 'ticker')
+        if ticker_str:
+            data = yf.download(ticker_str, period = '2d', interval = '1d', group_by = 'ticker')
+        else:
+            return 0, 0
+        
         prev_prices = {}
         for h in self.holdings:
             t = h.ticker
@@ -55,4 +60,30 @@ class Portfolio:
         
         return total_gain, gain_percent
     
+    def calc_unrealized_gain(self, transactions):
+        if not transactions:
+            return 0, 0
+        
+        total_unrealized = 0
+        unrealized_percent = 0
+        total_cost_basis = 0
+        total_current_value = 0
+        df = pd.DataFrame(transactions)
+        df = df[df['Amount'] > 0]
+        df['Cost'] = df['Amount'] * df['PriceAtTransaction']
+        for h in self.holdings:
+            ticker = h.ticker
+            df_ticker = df[df['Ticker'] == ticker]
+            total_shares = h.qty
+            avg_cost_share = df_ticker['Cost'].sum() / total_shares
+            current_value = h.total_value
+            cost_basis = avg_cost_share * total_shares
+            unrealized_gain = current_value - float(cost_basis)
+            
+            total_unrealized += unrealized_gain
+            total_cost_basis += cost_basis
+            total_current_value += current_value
+        
+        unrealized_percent = ((total_current_value - float(total_cost_basis)) / float(total_cost_basis)) * 100
+        return total_unrealized, unrealized_percent
     

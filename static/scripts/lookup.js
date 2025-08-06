@@ -217,7 +217,8 @@ function initializeModalElements(modalOverlay, stockData, ticker) {
                     },
                     body: JSON.stringify({
                         ticker,
-                        qty: shares * actionMultiplier
+                        qty: shares * actionMultiplier,
+                        user_id: userId
                     })
                 });
 
