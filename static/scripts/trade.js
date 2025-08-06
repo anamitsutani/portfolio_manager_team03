@@ -16,8 +16,10 @@ const orderTicker = document.getElementById('order-ticker');
 const tradeModal = document.getElementById('trade-modal');
 const openBtns = document.querySelectorAll('.open-trade-modal');
 const closeBtns = document.querySelectorAll('.close-trade-modal');
+const currentShares = document.getElementById('current-shares')
 
 const stocksApi = 'http://127.0.0.1:5000/api/stock';
+const portfolioApi = 'http://127.0.0.1:5000/api/portfolio';
 
 window.ticker;
 
@@ -55,6 +57,13 @@ openBtns.forEach((btn) => {
             window.ticker = tickerSelector.textContent.trim();
             tickerHeader.textContent = window.ticker;
             orderTicker.textContent = window.ticker;
+
+            try {
+                getShares().then((shares) => currentShares.textContent = shares)
+            } catch(error) {
+                showFeedbackAlert("Ticker Lookup", error, false);
+                currentShares.textContent = 'N/A'
+            }
         }
         if (priceSelector) {
             const priceText = priceSelector.textContent.trim();
@@ -69,6 +78,14 @@ openBtns.forEach((btn) => {
         
     });
 });
+
+async function getShares() {
+    const response = await fetch(`${portfolioApi}?userId=${userId}&ticker=${window.ticker}`, {
+        method: 'GET'
+    });
+    const data = await response.json();
+    return data.amount
+}
 
 // Close modal
 closeBtns.forEach((btn) => {

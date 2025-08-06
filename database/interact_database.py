@@ -11,14 +11,14 @@ db = mysql.connector.connect(
     )
 cursor = db.cursor()
 
-def get_ticker_amount(uuid, ticker):
+def get_amount_by_ticker(uuid):
     query = f"""
-        SELECT cast(sum(Amount) AS SIGNED) as TotalAmount
-        FROM transactions WHERE UUID={uuid} AND Ticker=\"{ticker}\"
+        SELECT Ticker, cast(sum(Amount) AS SIGNED) as TotalAmount
+        FROM transactions WHERE UUID={uuid}
         GROUP BY Ticker
         """
     cursor.execute(query)
-    return cursor.fetchall()[0][0]
+    return dict(cursor.fetchall())
 
 def update_balance_db(uuid):
     """

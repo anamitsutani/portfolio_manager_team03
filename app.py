@@ -47,7 +47,7 @@ def index():
                            gain_percent=gain_percent,
                            total_unrealized=unrealized,
                            unrealized_percent=unrealized_percent,
-                           pnl = pnl
+                           pnl=pnl
                            )
 
 

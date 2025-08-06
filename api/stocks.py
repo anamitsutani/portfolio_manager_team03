@@ -109,12 +109,31 @@ class Balance(Resource):
         except Exception as e:
             return { "error": str(e) }, 500
 
+class Portfolio(Resource):
+    def get(self):
+        for parameter in ["ticker", "userId"]:
+            if not request.args.get(parameter):
+                return {"error": f"Missing query parameter {parameter}"}, 400
+        user_id = request.args.get("userId")
+        ticker = request.args.get("ticker")
+
+        try:
+            user = User(user_id)
+            amount = user.get_ticker_amount(ticker)
+            if not amount:
+                return { "error": f"User doesn't own shares of {ticker}" },404
+            return { "ticker": ticker, "amount": amount }, 200
+        except Exception as e:
+            return { "error": str(e) }, 500
+
 
 api.add_resource(Stock, '/api/stock')
 
 api.add_resource(History, '/api/history')
 
 api.add_resource(Balance, '/api/balance')
+
+api.add_resource(Portfolio, '/api/portfolio')
 
 if __name__ == '__main__':
     app.run(debug=True)
