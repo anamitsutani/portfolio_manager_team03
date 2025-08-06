@@ -33,7 +33,7 @@
     </div>
 
     <!-- Feedback Alert -->
-    <div id="feedback-alert" class="flex flex-col fixed top-4 right-4 hidden z-50 px-4 py-3 rounded shadow-lg" role="alert">
+    <div id="feedback-alert" class="fixed flex flex-col fixed top-4 right-4 hidden z-50 px-4 py-3 rounded shadow-lg" role="alert">
         <div class="flex justify-between items-center">
             <span id="feedback-message-header" class="font-bold"></span>
             <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors" onclick="dismissFeedback()">
@@ -222,7 +222,7 @@
     </div>
 
     <!-- Buy/Sell Modal -->
-    <div id="trade-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm">
+    <div id="trade-modal" class="fixed inset-0 z-40 hidden bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm">
         {% include 'trade.html' %}
     </div>
 
@@ -319,5 +319,6 @@
         });
     </script>
     <script type="module" src="{{ url_for('static', filename='scripts/lookup.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='scripts/trade.js') }}"></script>
 </body>
 </html>

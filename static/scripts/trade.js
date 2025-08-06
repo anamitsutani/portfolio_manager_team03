@@ -16,7 +16,6 @@ const orderTicker = document.getElementById('order-ticker');
 const tradeModal = document.getElementById('trade-modal');
 const openBtns = document.querySelectorAll('.open-trade-modal');
 const closeBtns = document.querySelectorAll('.close-trade-modal');
-const holdingsTable = document.querySelector('.holdings-table');
 
 const stocksApi = 'http://127.0.0.1:5000/api/stock';
 
@@ -26,13 +25,15 @@ let isBuyMode = true;
 let currentPrice = 150.25;
 
 // show response alert
-export function showFeedbackAlert(message, isSuccess) {
+function showFeedbackAlert(header, message, isSuccess) {
     if (isSuccess) {
+        alertBox.classList.remove('alert-error')
         alertBox.classList.add('alert-success')
-        alertMessageHeader.textContent = "Order Confirmed";
+        alertMessageHeader.textContent = header + " Confirmed";
     } else {
+        alertBox.classList.remove('alert-success')
         alertBox.classList.add('alert-error');
-        alertMessageHeader.textContent = "Order Failed";
+        alertMessageHeader.textContent = header + "Order Failed";
     }
 
     // Set message and show
@@ -141,12 +142,12 @@ sellToggle.addEventListener('click', () => {
 
             let message = `Failed to place order : ${data.error || 'Unknown error'}`
             if (!response.ok) {     
-                showFeedbackAlert(message, false)
+                showFeedbackAlert("Order", message, false)
                 return;
             }
 
             message = `Order placed successfully! Total price: $${Math.abs(data.total_price.toFixed(2))}`
-            showFeedbackAlert(message, true)
+            showFeedbackAlert("Order", message, true)
 
             // Reset forms
             sharesInput.value = '';
@@ -155,7 +156,7 @@ sellToggle.addEventListener('click', () => {
             sendOrderBtn.disabled = true;
 
          } catch (error) {
-            showFeedbackAlert('Request Failed, please try again later', false)
+            showFeedbackAlert("Order", 'Request Failed, please try again later', false)
          }
      }
  });
@@ -164,11 +165,13 @@ sellToggle.addEventListener('click', () => {
 orderPricePerShare.textContent = `${currentPrice.toFixed(2)}`;
 
 // Dismiss feedback
-window.dismissFeedback = function() {
+const dismissFeedback = () => {
     if (alertBox) {
         alertBox.classList.add('hidden');
     }
 };
+
+window.dismissFeedback = dismissFeedback;
  
  // Close modal function
  window.closeModal = function() {
@@ -177,3 +180,5 @@ window.dismissFeedback = function() {
          tradeModal.classList.add('hidden');
      }
  };
+
+ export {showFeedbackAlert, alertBox, alertMessageHeader, dismissFeedback }

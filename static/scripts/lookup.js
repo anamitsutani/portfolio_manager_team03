@@ -1,4 +1,4 @@
-import { showFeedbackAlert } from './trade.js'
+import { showFeedbackAlert, alertBox, alertMessageHeader, dismissFeedback } from './trade.js'
 
 const inp = document.getElementById("ticker-input");
 const btn = document.getElementById("lookup-btn");
@@ -8,7 +8,7 @@ const stockApiLink = 'http://127.0.0.1:5000/api/stock';
 async function lookup() {
     const ticker = inp.value.trim().toUpperCase();
     if (!ticker) {
-        showFeedbackAlert("Please enter a ticker symbol", false);
+        showFeedbackAlert("Search", "Please enter a ticker symbol", false);
         return;
     }
     
@@ -20,22 +20,19 @@ async function lookup() {
 
         if (!res.ok) {
             if (res.status===404) {
-                showFeedbackAlert("Could not find data for ticker " + ticker, false);
+                showFeedbackAlert("Search", "Could not find data for ticker " + ticker, false);
             } else {
-                showFeedbackAlert("Unnexpected error while retrieving ticker: " + data.error, false);
+                showFeedbackAlert("Search", "Unnexpected error while retrieving ticker: " + data.error, false);
             }
         } else {
             showTradeModal(data, ticker);
         }
     } catch(e) {
-        showFeedbackAlert("Error while retrieving ticker: " + e, false);
+        showFeedbackAlert("Search", "Error while retrieving ticker: " + e, false);
     }
 }
 
 function showTradeModal(stockData, ticker) {
-    console.log('showTradeModal called with:', stockData, ticker);
-    
-
     const existingModal = document.getElementById('trade-modal-overlay');
     if (existingModal) {
         existingModal.remove();
@@ -138,21 +135,6 @@ function initializeModalElements(modalOverlay, stockData, ticker) {
     // set initial state
     let isBuyMode = true;
     let currentPrice = parseFloat(stockData.price);
-    
-    // show feedback alert function (matching trade.js)
-    function showFeedbackAlert(message, isSuccess) {
-        if (isSuccess) {
-            alertBox.classList.add('alert-success');
-            alertMessageHeader.textContent = "Order Confirmed";
-        } else {
-            alertBox.classList.add('alert-error');
-            alertMessageHeader.textContent = "Order Failed";
-        }
-
-        // set message and show
-        alertMessage.textContent = message;
-        alertBox.classList.remove('hidden');
-    }
     
     // initialize buy/sell toggle (similar to trade.js)
     buyToggle.addEventListener('click', () => {
