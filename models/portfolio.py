@@ -60,6 +60,40 @@ class Portfolio:
         
         return total_gain, gain_percent
     
+    def calc_avg_cost_basis(self, transactions):
+        avg_cost_basis = {}
+        transactions = pd.DataFrame(transactions)
+        transactions = transactions.sort_values(by = 'TransactionTimestamp')
+        
+        for ticker, group in transactions.groupby('Ticker'):
+            total_amount = 0
+            total_cost = 0.0
+            
+            for _, row in group.iterrows():
+                amount = row['Amount']
+                price = row['PriceAtTransaction']
+                
+                if amount > 0:
+                    # buy: increase total amount and cost
+                    total_amount += amount
+                    total_cost += amount * float(price)
+                    
+                elif amount < 0:
+                    # sell: decrease quantity and cost
+                    if total_amount == 0:
+                        continue
+                    sell_amount = -amount
+                    avg_cost = total_cost / total_amount
+                    total_amount -= sell_amount
+                    total_cost -= sell_amount * avg_cost
+                    
+            if total_amount > 0:
+                avg_cost_basis[ticker] = total_cost / total_amount
+            else:
+                avg_cost_basis[ticker] = 0     
+                     
+        return avg_cost_basis
+    
     def calc_unrealized_gain(self, transactions):
         if not transactions:
             return 0, 0
@@ -67,24 +101,22 @@ class Portfolio:
         total_unrealized = 0
         unrealized_percent = 0
         total_cost_basis = 0
-        total_current_value = 0
-        df = pd.DataFrame(transactions)
-        df = df[df['Amount'] > 0]
-        df['Cost'] = df['Amount'] * df['PriceAtTransaction']
+        total_current_price = 0
+        avg_cost_basis = self.calc_avg_cost_basis(transactions)
+        
         for h in self.holdings:
             ticker = h.ticker
-            df_ticker = df[df['Ticker'] == ticker]
             total_shares = h.qty
-            avg_cost_share = df_ticker['Cost'].sum() / total_shares
-            current_value = h.total_value
-            cost_basis = avg_cost_share * total_shares
-            unrealized_gain = current_value - float(cost_basis)
+            
+            cost_basis = avg_cost_basis[ticker]
+            current_price = h.current_price
+            unrealized_gain = (current_price - float(cost_basis)) * total_shares
             
             total_unrealized += unrealized_gain
             total_cost_basis += cost_basis
-            total_current_value += current_value
+            total_current_price += current_price
         
-        unrealized_percent = ((total_current_value - float(total_cost_basis)) / float(total_cost_basis)) * 100
+        unrealized_percent = ((total_current_price - float(total_cost_basis)) / float(total_cost_basis)) * 100
         return total_unrealized, unrealized_percent
     
     def calc_realized_gain(self, transactions):
@@ -130,8 +162,7 @@ class Portfolio:
                         gain = (sell_price - lot_price) * sell_amount
                         total_realized += gain
                         lot['amount'] -= sell_amount
-                        sell_amount = 0
-                        
+                        sell_amount = 0           
         return total_realized
     
     def calc_pnl(self, transactions):
