@@ -25,7 +25,7 @@ Otherwise, you will see a failure message. When buying, a transaction will fail 
 When selling, a transaction will fail if you do not have sufficient number of shares to make the selected sell. 
 
 Once having a stock in your holdings, you may initiate a trade through the 'Trade' button seen in the holdings table, instead of having to look a stock up
-every time you want to initiate a trade. The search function is only used when you wish to trade a stock you do not currently have in your holdings.
+every time you want to initiate a trade. The search function should be used when you want to trade a stock you do not currently have in your holdings.
 
 ## Portfolio performance metrics
 

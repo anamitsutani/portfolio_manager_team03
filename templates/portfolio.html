@@ -271,6 +271,23 @@
                         </div>
                     </div>
                 </div>
+                <!-- most recent transactions here-->
+                
+                <div class = 'mt-20'>
+                    <div class="sticky top-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                            <h2 class="text-2xl font-bold text-gray-900">Most Recent Transactions</h2>
+                        </div>
+                        <div class="glass p-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                            <div class="mt-2">
+                                {% include 'holdings.html' %}
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
             </div>
         </div>
     </div>
