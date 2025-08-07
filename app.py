@@ -7,6 +7,8 @@ import pandas as pd
 
 from models.transaction import Transaction
 
+from models.transaction import Transaction
+
 app = Flask(__name__)
 
 def start_conn():
