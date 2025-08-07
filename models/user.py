@@ -17,7 +17,7 @@ class User:
         amounts_dict = get_amount_by_ticker(self.id)
         if ticker in amounts_dict.keys():
             return amounts_dict[ticker]
-        return None
+        return 0
 
     def place_order(self, order):
         if not self.check_has_balance(order.total_price):
@@ -34,4 +34,4 @@ class User:
         if qty>0:
             return True
         holdings = self.get_ticker_amount(ticker)
-        return ("error" not in holdings.keys()) and holdings>(qty*-1)
+        return holdings>(qty*-1)

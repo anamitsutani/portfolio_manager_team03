@@ -18,7 +18,10 @@ def get_amount_by_ticker(uuid):
         GROUP BY Ticker
         """
     cursor.execute(query)
-    return dict(cursor.fetchall())
+    result = cursor.fetchall()
+    if result:
+        return dict(result)
+    return {}
 
 def update_balance_db(uuid):
     """
