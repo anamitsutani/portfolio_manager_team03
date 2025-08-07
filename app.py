@@ -5,6 +5,8 @@ import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
 
+from models.transaction import Transaction
+
 app = Flask(__name__)
 
 def start_conn():
@@ -20,8 +22,8 @@ def start_conn():
 def close_conn(conn):
     conn.close()
 
-def get_transactions(cursor):
-    cursor.execute("SELECT * FROM transactions")
+def get_transactions(cursor, user):
+    cursor.execute(f"SELECT * FROM transactions where UUID={user} ORDER BY TransactionTimestamp DESC")
     data = cursor.fetchall()
     return data
 
