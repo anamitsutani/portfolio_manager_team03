@@ -1,4 +1,4 @@
-import { showFeedbackAlert, tradeModal } from './trade.js'
+import { showFeedbackAlert, tradeModal, getShares, currentShares } from './trade.js'
 
 const inp = document.getElementById("ticker-input");
 const btn = document.getElementById("lookup-btn");
@@ -44,6 +44,15 @@ function showTradeModal(ticker, stockData) {
     if (priceElement) priceElement.textContent = `$${stockData.price}`;
     if (orderTickerElement) orderTickerElement.textContent = ticker;
     if (orderPriceElement) orderPriceElement.textContent = `$${stockData.price}`;
+
+    if (ticker) {
+        try {
+            getShares().then((shares) => currentShares.textContent = shares ?? '0')
+        } catch(error) {
+            showFeedbackAlert("Ticker Lookup", error, false);
+            currentShares.textContent = 'N/A'
+        }
+    }
 }
 
 // lookup using button

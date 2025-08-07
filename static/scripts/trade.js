@@ -89,7 +89,10 @@ async function getShares() {
 
 // Close modal
 closeBtns.forEach((btn) => {
-    btn.addEventListener('click', () => tradeModal.classList.add('hidden'));
+    btn.addEventListener('click', () => {
+        tradeModal.classList.add('hidden');
+        location.reload();
+    });
 });
  
  // Toggle between Buy and Sell
@@ -194,7 +197,8 @@ window.dismissFeedback = dismissFeedback;
      const tradeModal = document.getElementById('trade-modal');
      if (tradeModal) {
          tradeModal.classList.add('hidden');
+         location.reload();
      }
  };
 
- export {showFeedbackAlert, tradeModal }
+ export {showFeedbackAlert, getShares, tradeModal, currentShares }

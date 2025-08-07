@@ -120,8 +120,6 @@ class Portfolio(Resource):
         try:
             user = User(user_id)
             amount = user.get_ticker_amount(ticker)
-            if not amount:
-                return { "error": f"User doesn't own shares of {ticker}" },404
             return { "ticker": ticker, "amount": amount }, 200
         except Exception as e:
             return { "error": str(e) }, 500
