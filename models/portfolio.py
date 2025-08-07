@@ -166,4 +166,18 @@ class Portfolio:
         return total_realized
     
     def calc_pnl(self, transactions):
-        return float(self.calc_unrealized_gain(transactions)[0]) + float(self.calc_realized_gain(transactions))
+        total_pnl = 0
+        
+        transactions = pd.DataFrame(transactions)
+        tickers = set(transactions['Ticker'])
+        for ticker in tickers: 
+            ticker_transactions = transactions[transactions['Ticker'] == ticker]
+            cost = ticker_transactions['Amount'] * ticker_transactions['PriceAtTransaction']
+            cost = [float(x) for x in cost]
+            
+            # handle leftover
+            leftover_share = ticker_transactions['Amount'].sum()
+            current_price = yf.Ticker(ticker).info.get("currentPrice")
+            total_pnl += (-leftover_share * current_price) - sum(cost)
+        
+        return total_pnl
