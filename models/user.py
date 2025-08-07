@@ -1,4 +1,4 @@
-from database.interact_database import get_balance, update_balance_db, place_order_db, get_ticker_amount
+from database.interact_database import get_balance, update_balance_db, place_order_db, get_amount_by_ticker
 
 
 class User:
@@ -12,6 +12,12 @@ class User:
             self.balance = updated_balance
             return self.balance
         return "Balance already up to date"
+
+    def get_ticker_amount(self, ticker):
+        amounts_dict = get_amount_by_ticker(self.id)
+        if ticker in amounts_dict.keys():
+            return amounts_dict[ticker]
+        return 0
 
     def place_order(self, order):
         if not self.check_has_balance(order.total_price):
@@ -27,5 +33,5 @@ class User:
     def check_has_holdings(self, ticker, qty):
         if qty>0:
             return True
-        holdings = get_ticker_amount(self.id, ticker)
-        return holdings and holdings>0 and holdings>(qty*-1)
+        holdings = self.get_ticker_amount(ticker)
+        return holdings>(qty*-1)

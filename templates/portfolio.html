@@ -30,6 +30,21 @@
         <div class="gradient-orb orb-2"></div>
         <div class="gradient-orb orb-3"></div>
     </div>
+
+    <!-- Feedback Alert -->
+    <div id="feedback-alert" class="fixed flex flex-col fixed top-4 right-4 hidden z-50 px-4 py-3 rounded shadow-lg" role="alert">
+        <div class="flex justify-between items-center">
+            <span id="feedback-message-header" class="font-bold"></span>
+            <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors" onclick="dismissFeedback()">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <span id="feedback-message" class="block sm:inline"></span>
+    </div>
+
+
     <!-- Header -->
     <header class="px-6 py-8 header-bg">
         <div class="w-full flex justify-between items-center">
@@ -46,7 +61,7 @@
                             Value: <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">${{ "{:,.2f}".format(current_value) }}</span>
                         </h1>
                         <p class="text-sm text-gray-600 mt-1">
-                            Buying Power: <span class="font-semibold text-green-600">${{ "{:,.2f}".format(buying_power|default(25000.00)) }}</span>
+                            Buying Power: <span id="buying-power-text" class="font-semibold text-green-600"></span>
                         </p>
                     </div>
                 </div>
@@ -131,7 +146,7 @@
 
             <!-- Right Column: Holdings -->
             <div>
-                <div class="sticky top-8">
+                <div class="top-8">
                     <div class="flex items-center mb-6">
                         <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
                         <h2 class="text-2xl font-bold text-gray-900">Current Holdings</h2>
@@ -143,12 +158,29 @@
                         </div>
                     </div>
                 </div>
+                <!-- most recent transactions here-->
+                
+                <div class = 'mt-20'>
+                    <div class="top-8">
+                        <div class="flex items-center mb-6">
+                            <div class="w-1 h-8 bg-gradient-to-b from-indigo-500 to-cyan-500 rounded-full mr-4"></div>
+                            <h2 class="text-2xl font-bold text-gray-900">Most Recent Transactions</h2>
+                        </div>
+                        <div class="glass p-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-500"></div>
+                            <div class="mt-2">
+                                {% include 'transactions.html' %}
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+
             </div>
         </div>
     </div>
 
     <!-- Buy/Sell Modal -->
-    <div id="trade-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm">
+    <div id="trade-modal" class="fixed inset-0 z-40 hidden bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm">
         {% include 'trade.html' %}
     </div>
 
@@ -320,6 +352,9 @@
             }
         });
     </script>
+    <script type="text/javascript">var userId={{user_id}}</script>
+    <script type="module" src="{{ url_for('static', filename='scripts/balance.js') }}"></script>
     <script type="module" src="{{ url_for('static', filename='scripts/lookup.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='scripts/trade.js') }}"></script>
 </body>
 </html>
