@@ -47,12 +47,8 @@ def index():
                            gain_percent=gain_percent,
                            total_unrealized=unrealized,
                            unrealized_percent=unrealized_percent,
-                           pnl = pnl
+                           pnl=pnl
                            )
-
-@app.route("/trade", methods=["GET"])
-def trade():
-    return render_template('trade.html')
 
 
 if __name__ == "__main__":
