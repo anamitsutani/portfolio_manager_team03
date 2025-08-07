@@ -1,0 +1,26 @@
+<div class="glass overflow-hidden">
+    <table class="w-full transactions-table">
+        <thead class="bg-white/60">
+            <tr>
+                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Ticker</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Action</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Quantity</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Price At Transaction</th>
+                <th class="px-6 py-4 text-left text-sm font-semibold text-gray-500">Transaction Time</th>
+            </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-200">
+            {% for row in lastest_transactions %}
+            <tr class="transactions-row">
+                <td class="px-6 py-4 text-base font-bold text-gray-900 ticker">{{ row.ticker }}</td>
+                <td class="px-6 py-4 text-base text-gray-900 ticker">{{ row.action }}</td>
+                <td class="px-6 py-4 text-base text-gray-700">{{ row.amount }}</td>
+                <td class="px-6 py-4 text-base text-gray-700">${{ row.price_at_transaction }}</td>
+                <td class="px-6 py-4 text-base text-gray-700">{{ row.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+        </table>
+</div>
