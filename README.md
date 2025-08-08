@@ -13,7 +13,7 @@ Ensure that your machine has the necessary dependencies installed, located in re
 to smoothly install all required dependencies.
 
 ### Running instructions
-1. Go to database folder and run create_database.sql script in MySQL to create the database **portfolio_mgm** used in this application
+1. Navigate to the database folder and execute the **create_database.sql** script in MySQL to initialize the **portfolio_mgm** database required by this application.
 2. In a command-line terminal, run the API stocks script 'python -m api.stocks'.
 3. In another terminal, run the app script 'python app.py'. Use the URL provided in the standard output to view and use the portfolio management webpage.
 
