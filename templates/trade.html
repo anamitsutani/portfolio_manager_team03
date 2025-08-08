@@ -10,13 +10,21 @@
 <body>
     <div class="fixed z-40 container mx-auto px-4 py-4 bg-white max-w-2xl rounded-lg shadow-lg">
 
-    <!-- Header -->
+    <!-- Header with Buy/Sell toggle -->
     <header class="px-4 py-4">
         <div class="flex justify-between items-center">
-            <div class="text-left">
+            <div class="flex items-center gap-4">
                 <h1 class="text-2xl font-extrabold text-gray-900 tracking-tight" style="letter-spacing:-1px;">
                     Trade <span class="text-indigo-600" id="ticker-symbol"></span>
                 </h1>
+                <div class="bg-gray-100 p-1 rounded-full">
+                    <button id="buy-toggle" class="px-4 py-2 rounded-full font-semibold transition-all duration-200 bg-green-500 text-white">
+                        Buy
+                    </button>
+                    <button id="sell-toggle" class="px-4 py-2 rounded-full font-semibold transition-all duration-200 text-gray-600 hover:text-gray-900">
+                        Sell
+                    </button>
+                </div>
             </div>
             <div class="flex items-center">
                 <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors" onclick="closeModal()">
@@ -29,31 +37,20 @@
     </header>
 
     <div class="px-4 py-2">
-        <!-- Current Price Section -->
+        <!-- Current Price + 30-day Trend in one section -->
         <div class="glass p-4 mb-6">
-            <div class="text-center">
-                <p class="text-sm font-medium text-gray-600 mb-2">Current Price</p>
-                <p class="text-3xl font-bold text-gray-900" id="current-price"></p>
+            <div class="text-center mb-2">
+                <p class="text-sm font-medium text-gray-600">Current Price</p>
+                <p class="text-3xl text-gray-900" id="current-price"></p>
+            </div>
+            <hr class="my-3 border-gray-200">
+            <p class="text-xl text-gray-600 text-center mb-2">30-day trend</p>
+            <svg id="ticker-sparkline" class="w-full" height="120" preserveAspectRatio="none"></svg>
+            <div class="flex justify-between text-xs text-gray-500 mt-1">
+                <span id="sparkline-start"></span>
+                <span id="sparkline-end"></span>
             </div>
         </div>
-
-        <!-- Trading Interface -->
-        <div class="glass p-6">
-            <h2 class="text-lg font-bold text-gray-900 mb-4 text-center">Place Order</h2>
-            
-            <!-- Buy/Sell Toggle -->
-            <div class="mb-6">
-                <div class="flex justify-center">
-                    <div class="bg-gray-100 p-1 rounded-full">
-                        <button id="buy-toggle" class="px-4 py-2 rounded-full font-semibold transition-all duration-200 bg-green-500 text-white">
-                            Buy
-                        </button>
-                        <button id="sell-toggle" class="px-4 py-2 rounded-full font-semibold transition-all duration-200 text-gray-600 hover:text-gray-900">
-                            Sell
-                        </button>
-                    </div>
-                </div>
-            </div>
 
             <!-- Shares Input -->
             <div class="mb-2">
