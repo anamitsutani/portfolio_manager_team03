@@ -13,8 +13,9 @@ Ensure that your machine has the necessary dependencies installed, located in re
 to smoothly install all required dependencies.
 
 ### Running instructions
-1. In a command-line terminal, run the API stocks script 'python -m api.stocks'.
-2. In another terminal, run the app script 'python app.py'. Use the URL provided in the standard output to view and use the portfolio management webpage.
+1. Go to database folder and run create_database.sql script in MySQL to create the database **portfolio_mgm** used in this application
+2. In a command-line terminal, run the API stocks script 'python -m api.stocks'.
+3. In another terminal, run the app script 'python app.py'. Use the URL provided in the standard output to view and use the portfolio management webpage.
 
 ### Buying and Selling
 Each user by default is given a balance. To initiate a transaction, search up the ticker in the Lookup bar on the upper-right corner of the page.
