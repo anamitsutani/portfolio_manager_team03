@@ -33,11 +33,11 @@ every time you want to initiate a trade. The search function should be used when
 Based on your transactions and holdings, there are performance metrics taken to show portfolio performance. Among those are daily gain, total unrealized gains, and P&L.
 
 ### Daily Gain
-Daily gain for a single asset (in dollars) = Asset's current value - Asset's closing price from yesterday
+Daily gain for a single asset (in dollars) = Asset's current value - Asset's closing value from yesterday
 
 The total daily gain, $T$, is the sum of the daily gain for all assets currently held by the user.
 
-The total value of the portfolio held previously, $P$, is the sum of the closing prices of the assets.
+The total value of the portfolio held previously, $P$, is the portfolio value at close yesterday.
 
 Daily gain (%) = $(\frac{T}{P}) \cdot 100$
 
