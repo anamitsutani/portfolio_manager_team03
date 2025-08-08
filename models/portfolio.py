@@ -166,11 +166,14 @@ class Portfolio:
         return total_realized
     
     def calc_pnl(self, transactions):
+        if not transactions:
+            return 0
         total_pnl = 0
         
         transactions = pd.DataFrame(transactions)
         tickers = set(transactions['Ticker'])
         for ticker in tickers: 
+            print
             ticker_transactions = transactions[transactions['Ticker'] == ticker]
             cost = ticker_transactions['Amount'] * ticker_transactions['PriceAtTransaction']
             cost = [float(x) for x in cost]

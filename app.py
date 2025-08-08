@@ -58,9 +58,6 @@ def index():
                            pnl=pnl
                            )
 
-@app.route("/trade", methods=["GET"])
-def trade():
-    return render_template('trade.html')
 
 @app.route("/api/portfolio/performance", methods=["GET"])
 def get_portfolio_performance():
